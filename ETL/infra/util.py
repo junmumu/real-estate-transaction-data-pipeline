@@ -8,6 +8,12 @@ def cal_std_day(befor_day):
     day = x.day if x.day >= 10 else '0'+ str(x.day)  
     return str(year) + str(month) + str(day)  # 20220926 형태로 반환
 
+def cal_std_month(befor_day):   
+    x = datetime.now() - timedelta(befor_day)
+    year = x.year
+    month = x.month if x.month >= 10 else '0'+ str(x.month)  
+    return str(year) + str(month) # 202209 형태로 반환
+
 # api를 호출하기 위한 base함수
 def execute_rest_api(method, url, headers, params):   
     if method == 'get':
