@@ -13,9 +13,7 @@ class LocalCodeTransformer:
         df_local = df_local.select(col('지역코드').substr(0, 5).alias('loc_code'), col('시도코드').alias('sido_code'), 
                                     col('시군구코드').alias('sigungu_code'), split(col('지역주소명'), '[\s]', -1).alias('name'))
 
-        print(df_local.show(5))
-
-        localnames = df_local.select('name').collect()
+        localnames = df_local.select('name').collect()  # collect를 이용해 데이터프레임 한 열을 리스트로 생성
         # 전체주소명데이터를 가공해서 시도, 시군구 리스트 각각에 집어넣음
         sido_list = []
         sigungu_list = []
@@ -34,8 +32,6 @@ class LocalCodeTransformer:
         sido_sigungu_list = zip(sido_list, sigungu_list)
         columns = ["sido", "sigungu"]
         df_localnames = get_spark_session().createDataFrame(data=sido_sigungu_list, schema=columns)
-        print(df_localnames.count())
-        print(df_local.count())
         df_localnames.show(3)
 
         # 두 데이터프레임을 합하기 위해서 두 DF에서 가상으로 idx만든다음, 그 idx로 join
