@@ -9,6 +9,10 @@ from bs4 import BeautifulSoup
 class ApartmentSalePrice:
     URL = "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?"
     SERVICE_KEY = 'NvoJpM4nyxzXkb5F8hffSDHLrfuCyIcVBqBSDCgTa+/7CtQnsrFwE8y/a0lLPVxN1AESAPkiMkfoS7KYrck13A=='
+    SERVICE_KEY1 = 'lWLaCFJasDo6vpnFordk0ZVBBDk0eu0yL+KUjEF56K+w78w4lsKg7BJANNWeWbL2mzl72Q4LfFyIygL5qCGGkA=='
+    SERVICE_KEY2 = '8jy/djLDfwp5c1AqB5n9l10ZWmC4JLuurk79RH8bK3dMzEr42QBi//FALBtxojuuDyhrwzLvewwgU8mH0sfHMw=='
+    SERVICE_KEY3 = '7ConDA0CbBnYPevhhNhcTnvl65yZZghRa1yNNS+E0eHJLCuBNXG8SoXWbT4gNJ3l+TFLc6Vi3v7IeDIC0/Jg6A=='
+    SERVICE_KEY4 = 'AAWZ8YYk+UVVj9tf9VP7GniCMCSJ0lUHm/0JMAeuV/YeR1vtMRK1xwhHf0dNcDeDjGVOZv/DFyxMTDtOjOd5Ag=='
     FILE_DIR = '/real_estate/apartment_price/'
 
     @classmethod
@@ -21,10 +25,10 @@ class ApartmentSalePrice:
         loc_codes = df_loc.select('LOC_CODE').collect()
 
         # 지역코드 갯수만큼 반복
-        for i in range(1):  # len(loc_codes)
+        for i in range(78, 79):  # len(loc_codes), 77까지 완료
             data = []
-            print("loc_codes:", loc_codes[i][0])
             loc_code = loc_codes[i][0]
+            print("loc_codes:", loc_code)
             try:
                 # 날짜만큼 반복
                 for i in range(1, before_cnt + 1):
@@ -55,14 +59,14 @@ class ApartmentSalePrice:
         log_dict['err_msg'] = e.__str__()
         log_json = json.dumps(log_dict, ensure_ascii=False)
         print(log_dict['err_msg'])
-        get_logger('apartment_sale_price').error(log_json)
+        get_logger('apartment_sale_price_extract').error(log_json)
 
     # 로그데이터 생성
     @classmethod
     def __create_log_dict(cls, params):
         log_dict = {
                 "is_success": "Fail",
-                "type": "apartment_sale_price",
+                "type": "apartment_sale_price_extract",
                 "std_month": params['DEAL_YMD'],
                 "params": params
             }
@@ -85,7 +89,8 @@ class ApartmentSalePrice:
 
         res_code = soup.find('resultCode').text
         if res_code == '99':
-            raise Exception('주의: LIMITED NUMBER OF SERVICE REQUESTS EXCEEDS ERROR.')
+            res_msg = soup.find('resultMsg').text
+            raise Exception('주의:', res_msg)
 
         sp_price = soup.findAll('거래금액')
         sp_year = soup.findAll('년')
@@ -104,3 +109,5 @@ class ApartmentSalePrice:
         file_name = cls.FILE_DIR + 'apart_price_data_' + params['LAWD_CD'] + '.csv'
         with get_client().write(file_name, overwrite=True, encoding='cp949') as writer:
             df.to_csv(writer, header=['거래금액(만원)', '거래날짜', '전용면적',  '지역코드'], index=False)
+
+    # 모두 추출한 후 csv write overwrite False로 수정

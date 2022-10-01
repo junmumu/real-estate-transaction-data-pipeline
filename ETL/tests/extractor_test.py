@@ -22,7 +22,7 @@ class MTest(unittest.TestCase):
         OwnTransferByNationality.extract_data()
 
     def test5(self):
-        ApartmentSalePrice.extract_data(1)  # 70 : 2017 ~ 저번달
+        ApartmentSalePrice.extract_data(69)  # 69 : 2017 ~ 저번달
 
     def test6(self):
         LocalCode.extract_data()
