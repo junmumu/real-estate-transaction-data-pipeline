@@ -1,14 +1,13 @@
 import json
-import ssl
 from infra.hdfs_client import get_client
 from infra.logger import get_logger
 from infra.util import cal_std_day, execute_rest_api
 
 
-class OwnershipTransferByAddress:
+class OwnTransferByAddress:
     URL = 'http://data.iros.go.kr/openapi/cr/rs/selectCrRsRgsCsOpenApi.rest?id=0000000025'
     SERVICE_KEY = 'bb5c91262bb74bc8a953f62e8732fea7'
-    FILE_DIR = '/real_estate/ownership/address/'
+    FILE_DIR = '/realestate_data/address/'
 
     @classmethod
     def extract_data(cls, before_cnt=1):

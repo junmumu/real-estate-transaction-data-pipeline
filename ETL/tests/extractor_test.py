@@ -9,7 +9,7 @@ from datajob.etl.extract.ownership_transfer_by_address import OwnershipTransferB
 class MTest(unittest.TestCase):
 
     def test1(self):
-        OwnershipTransferByAddress.extract_data(10)
+        OwnTransferByAddress.extract_data(10)
     
     def test2(self):
         OwnTransferByGenderAge.extract_data()

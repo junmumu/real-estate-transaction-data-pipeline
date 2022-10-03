@@ -1,5 +1,4 @@
 # 로그파일 생성하는 모듈
-import imp
 import logging
 from infra.util import cal_std_day
 
