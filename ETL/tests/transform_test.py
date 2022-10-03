@@ -1,18 +1,17 @@
 import unittest
-from datajob.etl.transform.corona_patient import CoronaPatientTransformer
-from datajob.etl.transform.corona_vaccine import CoronaVaccineTransformer
-from datajob.etl.transform.loc import LocTransformer
+from datajob.etl.transform.own_sex_age import OwnSexAgeTransform
+from datajob.etl.transform.apartment_sale_price import ApartmentSalePriceTransformer
+from datajob.etl.transform.local_code import LocalCodeTransformer
 
 class MTest(unittest.TestCase):
-
     def test1(self):
-        CoronaPatientTransformer.transform()
+        LocalCodeTransformer.transform()
 
     def test2(self):
-        CoronaVaccineTransformer.transform()
-    
+        ApartmentSalePriceTransformer.transform()
+
     def test3(self):
-        LocTransformer.transform()
+        OwnSexAgeTransform.transform()
 
 if __name__ == "__main__":
     unittest.main()
