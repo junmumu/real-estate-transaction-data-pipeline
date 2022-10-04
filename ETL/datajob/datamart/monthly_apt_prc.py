@@ -15,7 +15,7 @@ class MonthlyAptPrc:
 
         df_fin = df_apt_prc.join(df_loc, df_apt_prc.REGN_CODE == df_loc.LOC_CODE)
 
-        df_fin = df_fin.select(date_format(col('RES_DATE'), 'yyyy.MM').alias('DATE_YM'), col('SIDO').alias('REGN'), col("SIDO_CODE"), 
+        df_fin = df_fin.select(date_format(col('RES_DATE'), 'yyyy-MM').alias('DATE_YM'), col('SIDO').alias('REGN'), col("SIDO_CODE"), 
                                     col('AMOUNT'), col('AREA'), (col('AMOUNT') / col('AREA')).alias('TMP')) \
                         .groupBy([col("DATE_YM"), col('SIDO_CODE'), col("REGN")]) \
                         .agg(sum("AMOUNT"), count("AMOUNT"), sum("TMP"))

@@ -15,7 +15,7 @@ class SidoRegist:
         df_fin = get_spark_session().sql('''SELECT LOC.SIDO AS REGN,
                                                 SUM(TOT) AS TOT,
                                                 ROUND((SUM(TOT) / (SELECT SUM(TOT) FROM REALESTATE_OWN) * 100), 1)  AS RATE
-                                        FROM REALESTATE_OWN RO INNER JOIN LOC ON LOC.LOC_CODE = RO.REGN_CODE
-                                        GROUP BY SIDO''')
+                                            FROM REALESTATE_OWN RO INNER JOIN LOC ON LOC.LOC_CODE = RO.REGN_CODE
+                                            GROUP BY SIDO''')
 
         save_data(DataMart, df_fin, "SIDO_REGIST")

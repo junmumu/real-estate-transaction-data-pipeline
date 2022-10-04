@@ -7,7 +7,7 @@ from infra.jdbc import DataWarehouse, find_data, save_data
 from infra.spark_session import get_spark_session
 from infra.util import cal_std_day
 
-class OwnSexAgeTransform:
+class OwnSexAgeTransformer:
 
     @classmethod
     def transform(cls): 
