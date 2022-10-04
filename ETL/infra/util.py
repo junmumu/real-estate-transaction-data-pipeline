@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import requests
 
-def cal_std_day(before_day): 
+def cal_std_day(before_day):
     x = datetime.now() - timedelta(before_day)
     year = x.year
     month = x.month if x.month >= 10 else '0' + str(x.month)

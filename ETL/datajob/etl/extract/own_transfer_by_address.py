@@ -7,7 +7,7 @@ from infra.util import cal_std_day, execute_rest_api
 class OwnTransferByAddress:
     URL = 'http://data.iros.go.kr/openapi/cr/rs/selectCrRsRgsCsOpenApi.rest?id=0000000025'
     SERVICE_KEY = 'bb5c91262bb74bc8a953f62e8732fea7'
-    FILE_DIR = '/realestate_data/address/'
+    FILE_DIR = '/real_estate/address/'
 
     @classmethod
     def extract_data(cls, before_cnt=1):
