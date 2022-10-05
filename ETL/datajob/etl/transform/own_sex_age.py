@@ -9,7 +9,8 @@ from infra.util import cal_std_day
 
 class OwnSexAgeTransform:
 
-    def transform():    
+    @classmethod
+    def transform(cls):    
         # DW에서 지역코드 불러오기
         df_loc = find_data(DataWarehouse, 'LOC')
         loc_code = df_loc.select(['SIDO','LOC_CODE']).filter(df_loc.SIGUNGU.isNull()).collect()
@@ -34,19 +35,19 @@ class OwnSexAgeTransform:
         # save in DW
         save_data(DataWarehouse, own_sex_age, 'OWN_SEX_AGE')
 
-        # 로그 dump
-        @classmethod
-        def __dump_log(cls, log_dict, e):
-            log_dict['err_msg'] = e.__str__()
-            log_json = json.dumps(log_dict, ensure_ascii=False)
-            print(log_dict['err_msg'])
-            get_logger('own_sex_age_transform').error(log_json)
+    # 로그 dump
+    @classmethod
+    def __dump_log(cls, log_dict, e):
+        log_dict['err_msg'] = e.__str__()
+        log_json = json.dumps(log_dict, ensure_ascii=False)
+        print(log_dict['err_msg'])
+        get_logger('own_sex_age_transform').error(log_json)
 
-        # 로그데이터 생성
-        @classmethod
-        def __create_log_dict(cls):
-            log_dict = {
-                    "is_success": "Fail",
-                    "type": "own_sex_age_transform"
-                }
-            return log_dict
+    # 로그데이터 생성
+    @classmethod
+    def __create_log_dict(cls):
+        log_dict = {
+                "is_success": "Fail",
+                "type": "own_sex_age_transform"
+            }
+        return log_dict
