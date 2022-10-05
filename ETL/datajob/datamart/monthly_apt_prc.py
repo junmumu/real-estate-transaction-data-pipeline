@@ -24,23 +24,12 @@ class MonthlyAptPrc:
 
         df_fin = df_apt_prc.join(broadcast(df_loc), df_apt_prc.REGN_CODE == df_loc.LOC_CODE)
 
-        #  col('AREA'),
-        # select(date_format(col('RES_DATE'), 'yyyy-MM').alias('DATE_YM'), col('SIDO').alias('REGN'), col("SIDO_CODE"), 
-        #                            col('AMOUNT'), (col('AMOUNT') / col('AREA')).alias('TMP')) \
-        #                .where(col('DATE_YM') == cal_std_month2(1)) \
-        
-        df_fin.show()
-
-        df_fin = df_fin.coalesce(1)
-
-        print("파티션개수:", df_fin.rdd.getNumPartitions())
-
         df_fin = df_fin.groupBy([col("DATE_YM"), col('SIDO_CODE'), col("REGN")]) \
                         .agg(sum("AMOUNT"), count("AMOUNT"), sum("TMP"))
         df_fin = df_fin.select(col("DATE_YM"), col("REGN"),
                                 round((col("sum(AMOUNT)") / col("count(AMOUNT)")), 0).alias("AVG_PRICE"),
                                 round((col("sum(TMP)") / col("count(AMOUNT)")), 0).alias("AVG_PRICE_M2"))
-        df_fin.show()
+        #df_fin.show()
 
         save_data(DataMart, df_fin, "MONTHLY_APT_PRC")
 
