@@ -75,5 +75,6 @@ if __name__ == "__main__":
     if args[2] not in works[args[1]].keys():
         raise Exception('두번째 전달인자가 이상함 >> ' + str(works[args[1]].keys()))
 
-    work = works[args[1]][args[2]]
-    work()  # 함수객체를 이용해 함수 호출
+    # work = works[args[1]][args[2]]
+    # work() # 함수객체를 이용해 함수 호출
+    
