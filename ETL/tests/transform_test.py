@@ -1,6 +1,7 @@
 import unittest
-from datajob.etl.transform.tr_realestate_own import TrRealEstateOwnTransformer
-from datajob.etl.transform.realestate_own import RealEstateOwnTransformer
+from datajob.etl.transform.own_foreigner import OwnForeignerTransformer
+from datajob.etl.transform.own_type import OwnTypeTransformer
+from datajob.etl.transform.real_estate_own import RealEstateOwnTransformer
 from datajob.etl.transform.own_addr import OwnAddrTransformer
 from datajob.etl.transform.own_sex_age import OwnSexAgeTransformer
 from datajob.etl.transform.apartment_sale_price import ApartmentSalePriceTransformer
@@ -18,13 +19,16 @@ class MTest(unittest.TestCase):
         OwnSexAgeTransformer.transform()
 
     def test4(self):
-        OwnAddrTransformer.transform(11)
+        OwnAddrTransformer.transform()
 
     def test5(self):
+        OwnForeignerTransformer.transform()
+
+    def test6(self):
+        OwnTypeTransformer.transform()
+
+    def test7(self):
         RealEstateOwnTransformer.transform()
-
-    def test5(self):
-        TrRealEstateOwnTransformer.transform()
 
    
 

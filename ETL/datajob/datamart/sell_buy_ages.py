@@ -30,8 +30,14 @@ class AccSellBuyAgesSido:
     def save(cls):
         sex_ages = find_data(DataWarehouse, 'OWN_SEX_AGE')
         sex_ages.createOrReplaceTempView("sex_ages")
-        ages_sido = get_spark_session().sql("""select BUYER_AGES as AGES, sum(TOT) as BUY_TOT , RES_REGN_CODE as REGN
-                                                from sex_ages group by BUYER_AGES, RES_REGN_CODE order by BUYER_AGES""")
+
+        df_loc = find_data(DataWarehouse, "LOC")
+        df_loc.createOrReplaceTempView('LOC')
+        
+        ages_sido = get_spark_session().sql("""select BUYER_AGES as AGES, sum(TOT) as BUY_TOT , SIDO as REGN
+                                            from sex_ages INNER JOIN LOC ON sex_ages.RES_REGN_CODE = LOC.LOC_CODE 
+                                            group by BUYER_AGES, SIDO 
+                                            order by BUYER_AGES""")
         #save_data(DataMart, ages_sido, "ACC_SELL_BUY_AGES_SIDO")
         overwrite_data(DataMart, ages_sido, "ACC_SELL_BUY_AGES_SIDO")
 

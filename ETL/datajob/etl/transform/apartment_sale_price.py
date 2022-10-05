@@ -94,9 +94,9 @@ class ApartmentSalePriceTransformer:
     def __read_csv_file(cls, loc_codes, i):
         # 지역코드를 이용해 csv파일 읽기
         loc_code = loc_codes[i][0]
-        file_name = 'apart_price_data_' + loc_code + '.csv'
-        #deal_ymd = cal_std_month(1)  # 저번달 : 202209
-        #file_name = 'apart_price_data_' + loc_code + '_' + deal_ymd + '.csv'
+        #file_name = 'apart_price_data_' + loc_code + '.csv'
+        deal_ymd = cal_std_month(1)  # 저번달 : 202209
+        file_name = 'apart_price_data_' + loc_code + '_' + deal_ymd + '.csv'
        
         df_apt_prc = get_spark_session().read.csv(cls.FILE_DIR + file_name, encoding='CP949', header=True)
         # df_apt_prc.show(3)

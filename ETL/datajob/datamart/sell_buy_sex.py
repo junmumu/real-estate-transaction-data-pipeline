@@ -9,7 +9,8 @@ class AccSellBuySex:
         sex = get_spark_session().sql("""select BUYER_SEX as SEX, sum(TOT) as BUY_TOT ,
                                         round((sum(TOT)/(select sum(TOT) from sex_ages)*100),1) as BUY_RATE
                                         from sex_ages group by BUYER_SEX""")
-        save_data(DataMart, sex, "ACC_SELL_BUY_SEX")
+        #save_data(DataMart, sex, "ACC_SELL_BUY_SEX")
+        overwrite_data(DataMart, sex, "ACC_SELL_BUY_SEX")
 
 
 class SellBuySexYear:
@@ -20,7 +21,8 @@ class SellBuySexYear:
         sex_year = get_spark_session().sql("""select BUYER_SEX as SEX, SUM(TOT) AS BUY_TOT,
                                         (select year(res_date) from sex_ages group by year(res_date)) as YEAR
                                         from sex_ages group by BUYER_SEX""")
-        save_data(DataMart, sex_year, "SELL_BUY_SEX_YEAR")
+        #save_data(DataMart, sex_year, "SELL_BUY_SEX_YEAR")
+        overwrite_data(DataMart, sex_year, "SELL_BUY_SEX_YEAR")
 
 
 class AccSellBuySexSido:
@@ -28,6 +30,13 @@ class AccSellBuySexSido:
     def save(cls):
         sex_ages = find_data(DataWarehouse, 'OWN_SEX_AGE')
         sex_ages.createOrReplaceTempView("sex_ages")
-        sex_sido = get_spark_session().sql("""select BUYER_SEX as SEX, sum(TOT) as BUY_TOT , RES_REGN_CODE as REGN
-                                                from sex_ages group by BUYER_SEX, RES_REGN_CODE order by sex""")
-        save_data(DataMart, sex_sido, "ACC_SELL_BUY_SEX_SIDO")
+
+        df_loc = find_data(DataWarehouse, "LOC")
+        df_loc.createOrReplaceTempView('LOC')
+
+        sex_sido = get_spark_session().sql("""select BUYER_SEX as SEX, sum(TOT) as BUY_TOT, SIDO as REGN
+                                                from sex_ages inner join LOC on sex_ages.RES_REGN_CODE = LOC.LOC_CODE
+                                                group by BUYER_SEX, SIDO 
+                                                order by sex""")
+        #save_data(DataMart, sex_sido, "ACC_SELL_BUY_SEX_SIDO")
+        overwrite_data(DataMart, sex_sido, "ACC_SELL_BUY_SEX_SIDO")

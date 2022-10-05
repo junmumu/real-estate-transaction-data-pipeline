@@ -9,7 +9,8 @@ class AccSellBuyType:
         own_type = get_spark_session().sql("""select OWNER_CLS as CLS, sum(TOT) as BUY_TOT ,
                                                 round((sum(TOT)/(select sum(TOT) from types)*100),1) as BUY_RATE
                                                 from types group by OWNER_CLS""")
-        save_data(DataMart, own_type, "ACC_SELL_BUY_TYPE")
+        #save_data(DataMart, own_type, "ACC_SELL_BUY_TYPE")
+        overwrite_data(DataMart, own_type, "ACC_SELL_BUY_TYPE")
 
 class SellBuyTypeYear:
     @classmethod
@@ -19,7 +20,8 @@ class SellBuyTypeYear:
         types_year = get_spark_session().sql("""select OWNER_CLS as CLS, SUM(TOT) AS BUY_TOT,
                                                 (select year(res_date) from types group by year(res_date)) as YEAR
                                                 from types group by OWNER_CLS""")
-        save_data(DataMart, types_year, "SELL_BUY_TYPE_YEAR")
+        #save_data(DataMart, types_year, "SELL_BUY_TYPE_YEAR")
+        overwrite_data(DataMart, types_year, "SELL_BUY_TYPE_YEAR")
 
 
 class AccSellBuyTypeSido:
@@ -27,6 +29,13 @@ class AccSellBuyTypeSido:
     def save(cls):
         types = find_data(DataWarehouse, 'OWN_TYPE')
         types.createOrReplaceTempView("types")
-        type_sido = get_spark_session().sql("""select OWNER_CLS as CLS, sum(TOT) as BUY_TOT , RES_REGN_CODE as REGN
-                                                from types group by OWNER_CLS, RES_REGN_CODE order by CLS""")
-        save_data(DataMart, type_sido, "ACC_SELL_BUY_TYPE_SIDO")
+
+        df_loc = find_data(DataWarehouse, "LOC")
+        df_loc.createOrReplaceTempView('LOC')
+        
+        type_sido = get_spark_session().sql("""select OWNER_CLS as CLS, sum(TOT) as BUY_TOT , SIDO as REGN
+                                            from types INNER JOIN LOC ON types.RES_REGN_CODE = LOC.LOC_CODE
+                                            group by OWNER_CLS, SIDO
+                                            order by CLS;""")
+        #save_data(DataMart, type_sido, "ACC_SELL_BUY_TYPE_SIDO")
+        overwrite_data(DataMart, type_sido, "ACC_SELL_BUY_TYPE_SIDO")
