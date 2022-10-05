@@ -7,14 +7,16 @@ from drf_yasg.views import get_schema_view
 
 
 router = routers.DefaultRouter()
-router.register(r'real_estate/monthlyaptprc', rest_view.MonthlyAptPrcViewSet)
 router.register(r'real_estate/sidoregist', rest_view.SidoRegistViewSet)
+router.register(r'real_estate/seoulguregist', rest_view.SeoulGuRegistViewSet)
+router.register(r'real_estate/monthlyaptprc', rest_view.MonthlyAptPrcViewSet)
+
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="REAL_ESTATE_API",
+      title="부동산_거래분석_API",
       default_version='v2',
-      description="REAL_ESTATE_API description",
+      description="부동산 데이터를 이용한 거래분석 API",
    ),
    public=True,
 )

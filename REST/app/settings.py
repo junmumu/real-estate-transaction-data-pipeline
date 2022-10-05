@@ -4,6 +4,7 @@ from pathlib import Path
 # 로그인 성공 이후 이동할 URL
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 DATABASES = {
     'default':{
@@ -48,10 +49,12 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
+#CSRF_TRUSTED_ORIGINS = ["https://corona-rest.tk", "https://www.corona-rest.tk"]
+
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5500',
+    # 'https://lectureazi.github.io",
 ]
-
 
 # Application definition
 

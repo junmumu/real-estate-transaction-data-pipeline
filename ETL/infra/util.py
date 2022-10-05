@@ -14,6 +14,12 @@ def cal_std_month(before_month):
     month = x.month if x.month >= 10 else '0' + str(x.month) # 월
     return str(year) + str(month)  # 202209 형태로 반환
 
+def cal_std_month2(before_month):
+    x = datetime.now() - timedelta(30 * before_month)
+    year = x.year # 연도
+    month = x.month if x.month >= 10 else '0' + str(x.month) # 월
+    return str(year) + '-' + str(month)  # 2022-09 형태로 반환
+
 # api를 호출하기 위한 base함수
 def execute_rest_api(method, url, headers, params):
     if method == 'get':

@@ -25,7 +25,7 @@ class ApartmentSalePrice:
         loc_codes = df_loc.select('LOC_CODE').collect()
 
         # 지역코드 갯수만큼 반복
-        for i in range(272, 273):  # len(loc_codes), 271까지 완료
+        for i in range(len(loc_codes)):
             data = []
             loc_code = loc_codes[i][0]
             print("loc_codes:", loc_code)
@@ -45,7 +45,7 @@ class ApartmentSalePrice:
     # 파라미터 생성
     @classmethod
     def __create_params(cls):
-        params = {'ServiceKey': cls.SERVICE_KEY4,
+        params = {'ServiceKey': cls.SERVICE_KEY,
                 'pageNo': '1',
                 'numOfRows': '2000',
                 'LAWD_CD': '41190',
@@ -106,8 +106,7 @@ class ApartmentSalePrice:
     @classmethod
     def __write_to_csv(cls, data, params):
         df = pd.DataFrame(data)
-        file_name = cls.FILE_DIR + 'apart_price_data_' + params['LAWD_CD'] + '.csv'
+        file_name = cls.FILE_DIR + 'apart_price_data_' + params['LAWD_CD'] + '_' + params['DEAL_YMD'] + '.csv'
         with get_client().write(file_name, overwrite=True, encoding='cp949') as writer:
             df.to_csv(writer, header=['거래금액(만원)', '거래날짜', '전용면적',  '지역코드'], index=False)
 
-    # 모두 추출한 후 csv write overwrite False로 수정

@@ -17,5 +17,5 @@ class SidoRegist:
                                                 ROUND((SUM(TOT) / (SELECT SUM(TOT) FROM REALESTATE_OWN) * 100), 1)  AS RATE
                                             FROM REALESTATE_OWN RO INNER JOIN LOC ON LOC.LOC_CODE = RO.REGN_CODE
                                             GROUP BY SIDO''')
-
-        save_data(DataMart, df_fin, "SIDO_REGIST")
+        df_fin.show()
+        #save_data(DataMart, df_fin, "SIDO_REGIST")

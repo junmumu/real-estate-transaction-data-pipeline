@@ -12,7 +12,8 @@ class OwnAddrTransformer:
     def transform(cls, before_cnt):
 
         for i in range(before_cnt, before_cnt + 1):
-            file_name = 'ownership_by_address_' + cal_std_day(i) + '.json'
+            # address_data_20161001.json
+            file_name = 'address_data_' + cal_std_day(i) + '.json'
             print(cls.FILE_DIR + file_name)
 
             data = get_spark_session().read.json(cls.FILE_DIR + file_name)

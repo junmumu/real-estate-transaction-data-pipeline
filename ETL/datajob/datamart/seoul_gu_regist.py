@@ -18,5 +18,5 @@ class SeoulGuRegist:
                                             FROM REALESTATE_OWN RO INNER JOIN LOC ON LOC.LOC_CODE = RO.REGN_CODE
                                             WHERE SIDO = '서울특별시'
                                             GROUP BY SIGUNGU''')
-
-        save_data(DataMart, df_fin, "SEOUL_GU_REGIST")
+        df_fin.show()
+        #save_data(DataMart, df_fin, "SEOUL_GU_REGIST")

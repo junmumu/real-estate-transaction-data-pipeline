@@ -12,6 +12,12 @@ class SidoRegistSerializer(serializers.HyperlinkedModelSerializer):
         model = SidoRegist
         fields = ['regn', 'tot', 'rate']
 
+class SeoulGuRegistSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = SeoulGuRegist
+        fields = ['regn', 'tot', 'rate']
+
+
 # class CoFacilitySerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:
 #         model = CoFacility
