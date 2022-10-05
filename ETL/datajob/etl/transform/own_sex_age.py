@@ -7,10 +7,14 @@ from infra.jdbc import DataWarehouse, find_data, save_data
 from infra.spark_session import get_spark_session
 from infra.util import cal_std_day
 
-class OwnSexAgeTransform:
+class OwnSexAgeTransformer:
 
     @classmethod
+<<<<<<< HEAD
     def transform(cls):    
+=======
+    def transform(cls): 
+>>>>>>> 3ad926cdb868e4f4ca13033289be2dfbeacb7ffb
         # DW에서 지역코드 불러오기
         df_loc = find_data(DataWarehouse, 'LOC')
         loc_code = df_loc.select(['SIDO','LOC_CODE']).filter(df_loc.SIGUNGU.isNull()).collect()

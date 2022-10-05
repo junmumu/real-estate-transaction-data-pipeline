@@ -25,7 +25,7 @@ class ApartmentSalePrice:
         loc_codes = df_loc.select('LOC_CODE').collect()
 
         # 지역코드 갯수만큼 반복
-        for i in range(78, 79):  # len(loc_codes), 77까지 완료
+        for i in range(272, 273):  # len(loc_codes), 271까지 완료
             data = []
             loc_code = loc_codes[i][0]
             print("loc_codes:", loc_code)
@@ -45,7 +45,7 @@ class ApartmentSalePrice:
     # 파라미터 생성
     @classmethod
     def __create_params(cls):
-        params = {'ServiceKey': cls.SERVICE_KEY,
+        params = {'ServiceKey': cls.SERVICE_KEY4,
                 'pageNo': '1',
                 'numOfRows': '2000',
                 'LAWD_CD': '41190',
