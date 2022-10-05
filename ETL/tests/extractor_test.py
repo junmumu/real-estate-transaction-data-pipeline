@@ -1,4 +1,5 @@
 import unittest
+from datajob.etl.extract.realestate_own import RealEstateOwnExtractor
 from datajob.etl.extract.apartment_sale_price import ApartmentSalePrice
 from datajob.etl.extract.local_code import LocalCode
 from datajob.etl.extract.own_transfer_by_nationality import OwnTransferByNationality
@@ -26,6 +27,9 @@ class MTest(unittest.TestCase):
 
     def test6(self):
         LocalCode.extract_data()
+
+    def test7(self):
+        RealEstateOwnExtractor.extract_data()
 
 if __name__ == "__main__":
     """ This is executed when run from the command line """

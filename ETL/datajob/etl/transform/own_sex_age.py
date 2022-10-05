@@ -10,7 +10,11 @@ from infra.util import cal_std_day
 class OwnSexAgeTransformer:
 
     @classmethod
+<<<<<<< HEAD
+    def transform(cls):    
+=======
     def transform(cls): 
+>>>>>>> 3ad926cdb868e4f4ca13033289be2dfbeacb7ffb
         # DW에서 지역코드 불러오기
         df_loc = find_data(DataWarehouse, 'LOC')
         loc_code = df_loc.select(['SIDO','LOC_CODE']).filter(df_loc.SIGUNGU.isNull()).collect()
