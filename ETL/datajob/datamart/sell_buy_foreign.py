@@ -1,4 +1,4 @@
-from infra.jdbc import DataMart, DataWarehouse, find_data, overwrite_data, save_data
+from infra.jdbc import DataMart, DataWarehouse, find_data, overwrite_data, overwrite_trunc_data, save_data
 from infra.spark_session import get_spark_session
 
 class AccSellBuyForeign:
@@ -10,7 +10,7 @@ class AccSellBuyForeign:
                                                 from foreigner 
                                                 group by BUYER_NATION""")
         #save_data(DataMart, own_foreigner, 'ACC_SELL_BUY_FOREIGN')
-        overwrite_data(DataMart, own_foreigner, 'ACC_SELL_BUY_FOREIGN')
+        overwrite_trunc_data(DataMart, own_foreigner, 'ACC_SELL_BUY_FOREIGN')
 
 
 class SellBuyForeignYear:
@@ -18,11 +18,11 @@ class SellBuyForeignYear:
     def save(cls):
         foreigner = find_data(DataWarehouse, "OWN_FOREIGNER")
         foreigner.createOrReplaceTempView("foreigner")
-        foreigner_year = get_spark_session().sql("""select BUYER_NATION as FOREIGNER, SUM(TOT) AS BUY_TOT, (select year(res_date) from foreigner group by year(res_date)) as YEAR 
+        foreigner_year = get_spark_session().sql("""select BUYER_NATION AS FOREIGNER , DATE_FORMAT(RES_DATE,'y') AS YEAR , SUM(TOT) AS BUY_TOT
                                                 from foreigner 
-                                                group by BUYER_NATION""")
+                                                GROUP BY DATE_FORMAT(RES_DATE,'y'), BUYER_NATION""")
         #save_data(DataMart, foreigner_year, 'SELL_BUY_FOREIGN_YEAR')
-        overwrite_data(DataMart, foreigner_year, 'SELL_BUY_FOREIGN_YEAR')
+        overwrite_trunc_data(DataMart, foreigner_year, 'SELL_BUY_FOREIGN_YEAR')
 
 
 class AccSellBuyForeignSido:
@@ -38,5 +38,5 @@ class AccSellBuyForeignSido:
                                                     from foreigner INNER JOIN LOC ON foreigner.RES_REGN_CODE = LOC.LOC_CODE
                                                     group by BUYER_NATION, SIDO order by FOREIGNER""")
         #save_data(DataMart, foreigner_sido , 'ACC_SELL_BUY_FOREIGN_SIDO')
-        overwrite_data(DataMart, foreigner_sido, 'ACC_SELL_BUY_FOREIGN_SIDO')
+        overwrite_trunc_data(DataMart, foreigner_sido, 'ACC_SELL_BUY_FOREIGN_SIDO')
   

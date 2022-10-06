@@ -13,7 +13,7 @@ class OwnTypeTransformer:
         for i in range(1, before_cnt + 1): 
             try:
                 # extract데이터 불러오기
-                path = '/real_estate/local_foreigner_corp/local_foreigner_corp_data_' + cal_std_day(i) + '.json'
+                path = '/real_estate/local_foreigner_corp/ownership_by_local_foreigner_corp_' + cal_std_day(i) + '.json'
                 tmp = get_spark_session().read.json(path, encoding='UTF-8')
                 tmp2 = tmp.select('result').first()
                 df = get_spark_session().createDataFrame(tmp2)

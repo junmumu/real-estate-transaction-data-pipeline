@@ -12,7 +12,7 @@ class OwnAddrTransformer:
     def transform(cls, before_cnt=1):
         for i in range(1, before_cnt + 1):
             try:
-                file_name = '/real_estate/address/address_data_' + cal_std_day(i) + '.json'
+                file_name = '/real_estate/address/ownership_by_address_' + cal_std_day(i) + '.json'
                 tmp = get_spark_session().read.json(file_name, encoding='UTF-8')
                 tmp2 = tmp.select('result').first()
                 df = get_spark_session().createDataFrame(tmp2)

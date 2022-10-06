@@ -89,7 +89,7 @@ class AccSellBuySexSido(models.Model):
 
 class AccSellBuyType(models.Model):
     asbt_idx = models.BigAutoField(primary_key=True)
-    cls = models.CharField(max_length=30, blank=True, null=True)
+    cls = models.CharField(max_length=100, blank=True, null=True)
     buy_tot = models.BigIntegerField(blank=True, null=True)
     buy_rate = models.FloatField(blank=True, null=True)
 
@@ -100,7 +100,7 @@ class AccSellBuyType(models.Model):
 
 class AccSellBuyTypeSido(models.Model):
     asbts_idx = models.BigAutoField(primary_key=True)
-    cls = models.CharField(max_length=30, blank=True, null=True)
+    cls = models.CharField(max_length=100, blank=True, null=True)
     regn = models.CharField(max_length=30, blank=True, null=True)
     buy_tot = models.BigIntegerField(blank=True, null=True)
 
@@ -258,7 +258,7 @@ class MonthlyAptPrc(models.Model):
 
 class OwnRegistType(models.Model):
     ort_idx = models.BigAutoField(primary_key=True)
-    cls = models.CharField(max_length=30, blank=True, null=True)
+    cls = models.CharField(max_length=100, blank=True, null=True)
     tot = models.BigIntegerField(blank=True, null=True)
     rate = models.FloatField(blank=True, null=True)
 
@@ -302,7 +302,7 @@ class SellBuySexYear(models.Model):
 
 class SellBuySudo(models.Model):
     sbs_idx = models.BigAutoField(primary_key=True)
-    sudo = models.CharField(max_length=5, blank=True, null=True)
+    sudo = models.CharField(max_length=20, blank=True, null=True)
     buy_tot = models.BigIntegerField(blank=True, null=True)
     buy_rate = models.FloatField(blank=True, null=True)
     sell_tot = models.BigIntegerField(blank=True, null=True)
@@ -327,7 +327,7 @@ class SellBuySudoYear(models.Model):
 
 class SellBuyTypeYear(models.Model):
     sbty_idx = models.BigAutoField(primary_key=True)
-    cls = models.CharField(max_length=30, blank=True, null=True)
+    cls = models.CharField(max_length=100, blank=True, null=True)
     year = models.CharField(max_length=5, blank=True, null=True)
     buy_tot = models.BigIntegerField(blank=True, null=True)
 
@@ -360,7 +360,7 @@ class SeoulGuRegist(models.Model):
 
 class SeoulOwnRegistType(models.Model):
     sort_idx = models.BigAutoField(primary_key=True)
-    cls = models.CharField(max_length=30, blank=True, null=True)
+    cls = models.CharField(max_length=100, blank=True, null=True)
     tot = models.BigIntegerField(blank=True, null=True)
     rate = models.FloatField(blank=True, null=True)
 
@@ -371,7 +371,7 @@ class SeoulOwnRegistType(models.Model):
 
 class SeoulSexRegist(models.Model):
     ssr_idx = models.BigAutoField(primary_key=True)
-    sex = models.CharField(max_length=5, blank=True, null=True)
+    sex = models.CharField(max_length=20, blank=True, null=True)
     tot = models.BigIntegerField(blank=True, null=True)
     rate = models.FloatField(blank=True, null=True)
 
@@ -382,7 +382,7 @@ class SeoulSexRegist(models.Model):
 
 class SexRegist(models.Model):
     sr_idx = models.BigAutoField(primary_key=True)
-    sex = models.CharField(max_length=5, blank=True, null=True)
+    sex = models.CharField(max_length=20, blank=True, null=True)
     tot = models.BigIntegerField(blank=True, null=True)
     rate = models.FloatField(blank=True, null=True)
 

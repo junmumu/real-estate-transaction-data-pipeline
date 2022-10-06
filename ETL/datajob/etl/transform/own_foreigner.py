@@ -13,7 +13,7 @@ class OwnForeignerTransformer:
         for i in range(1, before_cnt + 1):
             try:
                 # extract데이터 불러오기
-                path = '/real_estate/nationality/nationality_data_' + cal_std_day(i) + '.json'
+                path = '/real_estate/nationality/ownership_by_nationality_' + cal_std_day(i) + '.json'
                 tmp = get_spark_session().read.json(path, encoding='UTF-8')
                 tmp2 = tmp.select('result').first()
                 df = get_spark_session().createDataFrame(tmp2)

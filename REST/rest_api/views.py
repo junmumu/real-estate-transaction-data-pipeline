@@ -56,7 +56,7 @@ class MonthlyAptPrcViewSet(viewsets.ReadOnlyModelViewSet):
 
     @swagger_auto_schema(
         operation_summary="월간 아파트 매매 실거래 가격",
-        operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다.""",
+        operation_description="""지역이름 생략 시 전체 데이터를 반환합니다.""",
         #  <br>
         #     시작년월와 끝년월을 모두 생략하면 최근 1년 데이터를 반환합니다. <br>
         #     시작년월만 입력하면 시작날짜부터 저번달까지의 데이터를 반환합니다.<br>
@@ -85,10 +85,10 @@ class MonthlyAptPrcViewSet(viewsets.ReadOnlyModelViewSet):
     def list(self, request):
         query_params = request.query_params
         if 'location' not in query_params:
-            loc = '서울특별시'
+            queryset = SidoRegist.objects.all()
         else:
             loc = query_params['location']
-        queryset = MonthlyAptPrc.objects.filter(regn=query_params['location']).order_by('-date_ym')
+            queryset = MonthlyAptPrc.objects.filter(regn=loc).order_by('-date_ym')
         #queryset = get_queryset_by_date(MonthlyAptPrc, query_parmas)
         #print(query_parmas)
         #serialized = serializers.serialize('json', queryset)
@@ -106,8 +106,8 @@ class SidoRegistViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="전국 17개 광역시도별 등기 구분 수",
-        operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
+        operation_summary="전국 17개 광역시도별 등기 수",
+        operation_description="""지역이름 생략 시 전체 데이터를 반환합니다. """,
         manual_parameters=[
             Parameter("location", IN_QUERY, type=TYPE_STRING,
                       description="지역이름(광역시도) ex) 서울특별시, 경기도, 경상남도, 제주특별자치도, 세종특별자치시...", required=False)
@@ -127,10 +127,10 @@ class SidoRegistViewSet(viewsets.ReadOnlyModelViewSet):
     def list(self, request):
         query_params = request.query_params
         if 'location' not in query_params:
-            loc = '서울특별시'
+            queryset = SidoRegist.objects.all()
         else:
             loc = query_params['location']
-        queryset = SidoRegist.objects.filter(regn=loc)
+            queryset = SidoRegist.objects.filter(regn=loc)
         serializer = self.get_serializer(queryset, many=True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -144,8 +144,8 @@ class SeoulGuRegistViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="서울시 자치구별 부동산 등기 구분 수",
-        operation_description="""지역이름 생략 시 강남구 데이터를 반환합니다. """,
+        operation_summary="서울시 자치구별 부동산 등기 수",
+        operation_description="""지역이름 생략 시 전체 데이터를 반환합니다. """,
         manual_parameters=[
             Parameter("location", IN_QUERY, type=TYPE_STRING,
                       description="지역이름(서울시 자치구명) ex) 종로구, 광진구, 강남구...", required=False)
@@ -165,10 +165,12 @@ class SeoulGuRegistViewSet(viewsets.ReadOnlyModelViewSet):
     def list(self, request):
         query_params = request.query_params
         if 'location' not in query_params:
-            loc = '종로구'
+            queryset = SeoulGuRegist.objects.all()
         else:
             loc = query_params['location']
-        queryset = SeoulGuRegist.objects.filter(regn=loc)
+            queryset = SeoulGuRegist.objects.filter(regn=loc)
+        #queryset = SeoulGuRegist.objects.filter(regn=loc)
+        #queryset = SeoulGuRegist.objects.all()
         serializer = self.get_serializer(queryset, many=True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -183,7 +185,7 @@ class OwnRegistTypeViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="전국 소유유형별 등기 구분수",
+        operation_summary="전국 소유유형별 등기 수",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,
@@ -221,7 +223,7 @@ class SeoulOwnRegistTypeViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="서울시 소유유형별 등기 구분수",
+        operation_summary="서울시 소유유형별 등기 수",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,
@@ -260,7 +262,7 @@ class AgesRegistViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="전국 연령대별 등기 구분수",
+        operation_summary="전국 연령대별 등기 수",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,
@@ -298,7 +300,7 @@ class SeoulAgesRegistViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="서울시 연령대별 등기 구분수",
+        operation_summary="서울시 연령대별 등기 수",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,
@@ -337,7 +339,7 @@ class SexRegistViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="전국 성별 등기 구분수",
+        operation_summary="전국 성별 등기 수",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,
@@ -375,7 +377,7 @@ class SeoulSexRegistViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="서울시 성별 등기 구분수",
+        operation_summary="서울시 성별 등기 수",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,
@@ -414,12 +416,12 @@ class AccSellBuyAdrsViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="광역시도별 누적 매도 매수량",
-        # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
-        # manual_parameters=[
-        #     Parameter("location", IN_QUERY, type=TYPE_STRING,
-        #               description="지역이름(광역시도) ex) 서울특별시, 경기도, 경상남도, 제주특별자치도, 세종특별자치시...", required=False)
-        # ],
+        operation_summary="광역시도별 누적 매도매수량",
+        operation_description="""지역이름 생략 시 전체 데이터를 반환합니다. """,
+        manual_parameters=[
+            Parameter("location", IN_QUERY, type=TYPE_STRING,
+                      description="지역이름(광역시도) ex) 서울특별시, 경기도, 경상남도, 제주특별자치도, 세종특별자치시...", required=False)
+        ],
         responses={
             200: Schema(
                 'AccSellBuyAdrs',
@@ -436,11 +438,11 @@ class AccSellBuyAdrsViewSet(viewsets.ReadOnlyModelViewSet):
     )
     def list(self, request):
         query_params = request.query_params
-        # if 'location' not in query_params:
-        #     loc = '종로구'
-        # else:
-        #     loc = query_params['location']
-        queryset = AccSellBuyAdrs.objects.filter()
+        if 'location' not in query_params:
+            queryset = AccSellBuyAdrs.objects.all()
+        else:
+            loc = query_params['location']
+            queryset = AccSellBuyAdrs.objects.filter(regn=loc)
         serializer = self.get_serializer(queryset, many=True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -454,7 +456,7 @@ class SellBuySudoViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="수도권 비수도권 누적 매도 매수량",
+        operation_summary="수도권 비수도권 누적 매도매수량",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,
@@ -494,7 +496,7 @@ class SellBuySudoYearViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="수도권 연도별 누적 매도 매수량",
+        operation_summary="수도권 연도별 누적 매도매수량",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,
@@ -534,7 +536,7 @@ class AccSellBuyTypeViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="소유유형별 누적 매도 매수량",
+        operation_summary="소유유형별 누적 매도매수량",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,
@@ -610,7 +612,7 @@ class AccSellBuyTypeSidoViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="소유유형별 광역시도별 누적매도매수량",
+        operation_summary="소유유형별 광역시도별 누적 매도매수량",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,
@@ -725,7 +727,7 @@ class AccSellBuyAgesSidoViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="연령대별 광역시도별 누적매도매수량",
+        operation_summary="연령대별 광역시도별 누적 매도매수량",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,
@@ -840,7 +842,7 @@ class AccSellBuySexSidoViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="성별 광역시도별 누적매도매수량",
+        operation_summary="성별 광역시도별 누적 매도매수량",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,
@@ -955,7 +957,7 @@ class AccSellBuyForeignSidoViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="외국인국적별 광역시도별 누적매도매수량",
+        operation_summary="외국인국적별 광역시도별 누적 매도매수량",
         # operation_description="""지역이름 생략 시 서울특별시 데이터를 반환합니다. """,
         # manual_parameters=[
         #     Parameter("location", IN_QUERY, type=TYPE_STRING,

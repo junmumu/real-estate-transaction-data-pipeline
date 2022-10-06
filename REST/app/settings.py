@@ -49,11 +49,12 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-#CSRF_TRUSTED_ORIGINS = ["https://corona-rest.tk", "https://www.corona-rest.tk"]
+CSRF_TRUSTED_ORIGINS = ["http://real-estate-analysis.cf/", "https://real-estate-analysis.cf/"]
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5500',
     # 'https://lectureazi.github.io",
+    # 'https://real-estate-analysis.cf'.
 ]
 
 # Application definition

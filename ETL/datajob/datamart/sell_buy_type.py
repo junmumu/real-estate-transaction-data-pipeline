@@ -1,4 +1,4 @@
-from infra.jdbc import DataMart, DataWarehouse, find_data, overwrite_data, save_data
+from infra.jdbc import DataMart, DataWarehouse, find_data, overwrite_data, overwrite_trunc_data, save_data
 from infra.spark_session import get_spark_session
 
 class AccSellBuyType:
@@ -10,18 +10,18 @@ class AccSellBuyType:
                                                 round((sum(TOT)/(select sum(TOT) from types)*100),1) as BUY_RATE
                                                 from types group by OWNER_CLS""")
         #save_data(DataMart, own_type, "ACC_SELL_BUY_TYPE")
-        overwrite_data(DataMart, own_type, "ACC_SELL_BUY_TYPE")
+        overwrite_trunc_data(DataMart, own_type, "ACC_SELL_BUY_TYPE")
 
 class SellBuyTypeYear:
     @classmethod
     def save(cls):
         types = find_data(DataWarehouse, 'OWN_TYPE')
         types.createOrReplaceTempView("types")
-        types_year = get_spark_session().sql("""select OWNER_CLS as CLS, SUM(TOT) AS BUY_TOT,
-                                                (select year(res_date) from types group by year(res_date)) as YEAR
-                                                from types group by OWNER_CLS""")
+        types_year = get_spark_session().sql("""select OWNER_CLS as CLS , DATE_FORMAT(RES_DATE,'y') AS YEAR , SUM(TOT) AS BUY_TOT
+                                            from types
+                                            GROUP BY DATE_FORMAT(RES_DATE,'y'), OWNER_CLS""")
         #save_data(DataMart, types_year, "SELL_BUY_TYPE_YEAR")
-        overwrite_data(DataMart, types_year, "SELL_BUY_TYPE_YEAR")
+        overwrite_trunc_data(DataMart, types_year, "SELL_BUY_TYPE_YEAR")
 
 
 class AccSellBuyTypeSido:
@@ -38,4 +38,4 @@ class AccSellBuyTypeSido:
                                             group by OWNER_CLS, SIDO
                                             order by CLS;""")
         #save_data(DataMart, type_sido, "ACC_SELL_BUY_TYPE_SIDO")
-        overwrite_data(DataMart, type_sido, "ACC_SELL_BUY_TYPE_SIDO")
+        overwrite_trunc_data(DataMart, type_sido, "ACC_SELL_BUY_TYPE_SIDO")

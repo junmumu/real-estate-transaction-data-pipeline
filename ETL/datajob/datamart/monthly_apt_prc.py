@@ -1,4 +1,4 @@
-from infra.jdbc import DataMart, DataWarehouse, find_data, save_data
+from infra.jdbc import DataMart, DataWarehouse, find_data, overwrite_data, overwrite_trunc_data, save_data
 from pyspark.sql.functions import date_format, col, sum, count, round, broadcast
 from infra.spark_session import get_spark_session
 from infra.util import cal_std_month2
@@ -29,9 +29,8 @@ class MonthlyAptPrc:
         df_fin = df_fin.select(col("DATE_YM"), col("REGN"),
                                 round((col("sum(AMOUNT)") / col("count(AMOUNT)")), 0).alias("AVG_PRICE"),
                                 round((col("sum(TMP)") / col("count(AMOUNT)")), 0).alias("AVG_PRICE_M2"))
-        #df_fin.show()
 
-        save_data(DataMart, df_fin, "MONTHLY_APT_PRC")
+        overwrite_trunc_data(DataMart, df_fin, "MONTHLY_APT_PRC")
 
         # get_spark_session().sql('''SELECT TO_CHAR(RES_DATE, 'YYYY-MM') AS DATE_YM, SIDO AS REGN,
         #                             ROUND(SUM(AMOUNT) / COUNT(AMOUNT), 0) AS AVG_PRICE,

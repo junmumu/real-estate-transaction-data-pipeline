@@ -1,4 +1,4 @@
-from infra.jdbc import DataMart, DataWarehouse, find_data, save_data
+from infra.jdbc import DataMart, DataWarehouse, find_data, overwrite_data, overwrite_trunc_data, save_data
 from infra.spark_session import get_spark_session
 
 
@@ -17,5 +17,4 @@ class SidoRegist:
                                                 ROUND((SUM(TOT) / (SELECT SUM(TOT) FROM REALESTATE_OWN) * 100), 1)  AS RATE
                                             FROM REALESTATE_OWN RO INNER JOIN LOC ON LOC.LOC_CODE = RO.REGN_CODE
                                             GROUP BY SIDO''')
-        df_fin.show()
-        #save_data(DataMart, df_fin, "SIDO_REGIST")
+        overwrite_trunc_data(DataMart, df_fin, "SIDO_REGIST")

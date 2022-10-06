@@ -31,6 +31,12 @@ def overwrite_data(config, dataframe, table_name):
                         mode='overwrite',
                         properties=config.PROPS.value)
 
+def overwrite_trunc_data(config, dataframe, table_name):
+    dataframe.write.option("truncate", "true").jdbc(url=config.URL.value,
+                                                    table=table_name,
+                                                    mode='overwrite',
+                                                    properties=config.PROPS.value)
+
 # 데이터웨어하우스, 데이터마트에서 데이터 가져오기 위한 함수
 def find_data(config, table_name):
     return get_spark_session().read.jdbc(url=config.URL.value,

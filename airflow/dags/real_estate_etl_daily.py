@@ -20,13 +20,18 @@ with DAG(
     },
     description = 'Real Estate ETL Project',
     schedule = timedelta(days=1), # 반복날짜 - 1일마다
-    start_date = datetime(2022, 10, 6, 4, 30),  # 시작날짜
+    start_date = datetime(2022, 10, 6, 0, 30),  # 시작날짜
     catchup=False,
     tags=['real_estate_etl_daily'],
 ) as dag:
 
     # t1, t2 and t3 are examples of tasks created by instantiating operators
     # 태스크들 추가
+
+    start = BashOperator(
+        task_id='start', 
+        bash_command="date"
+    )
 
     ########### Extract ###########
     t1 = BashOperator(
@@ -199,6 +204,8 @@ with DAG(
     # task_2 >> [task_4, task_5]
     # task_3 >> [task_4, task_5]
     # [task_4 , task_5 ] >> task_6
+    #t1
+    start >> [t1, t2, t3, t4]
     t1 >> t5 >> [t9, t10, t11]
     t2 >> t6 >> [t12, t13, t14, t18, t19, t20]
     t3 >> t7 >> [t15, t16, t17]
