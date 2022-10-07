@@ -85,7 +85,7 @@ class MonthlyAptPrcViewSet(viewsets.ReadOnlyModelViewSet):
     def list(self, request):
         query_params = request.query_params
         if 'location' not in query_params:
-            queryset = SidoRegist.objects.all()
+            queryset = MonthlyAptPrc.objects.all()
         else:
             loc = query_params['location']
             queryset = MonthlyAptPrc.objects.filter(regn=loc).order_by('-date_ym')
