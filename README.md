@@ -104,9 +104,11 @@
 ### 5. 데이터 파이프라인
 
 ![](./img/pipeline%20flow.png)
+<br>
 
 **AirFlow 일별 배치 스케쥴 Graph**
 ![](./img/airflow_daily.PNG)
+<br>
 
 **AirFlow 월별 배치 스케쥴 Graph**
 ![](./img/airflow_monthly.PNG)
