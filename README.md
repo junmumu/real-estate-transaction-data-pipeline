@@ -82,7 +82,8 @@
 
 #### 협업도구
 <img src="https://img.shields.io/badge/trello-0052CC?style=for-the-badge&logo=trello&logoColor=white">
-[Trello 주소](https://trello.com/b/dSDB5GjG/deproject)
+<br>
+<a href="https://trello.com/b/dSDB5GjG/deproject">Trello 주소</a>
 
 </div>
 
