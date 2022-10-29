@@ -34,28 +34,35 @@
 
 ### 3. 수행 도구
 
+<div align=center> 
+
 #### 개발환경
 <img src="https://img.shields.io/badge/docker-1572B6?style=for-the-badge&logo=docker&logoColor=white">
 <img src="https://img.shields.io/badge/ubuntu-FCC624?style=for-the-badge&logo=linux&logoColor=white">
+<br>
 
 #### Data Lake
 <img src="https://img.shields.io/badge/hadoop-66CCFF?style=for-the-badge&logo=apachehadoop&logoColor=black">
-
+<br>
 
 #### Data Warehouse, Data Mart
 <img src="https://img.shields.io/badge/oracle_db-F80000?style=for-the-badge&logo=oracle&logoColor=white">
 <img src="https://img.shields.io/badge/oracle_cloud-F80000?style=for-the-badge&logo=icloud&logoColor=white">
+<br>
 
 #### Data Processing
 <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">
 <img src="https://img.shields.io/badge/spark-E25A1C?style=for-the-badge&logo=apachespark&logoColor=white">
+<br>
 
 #### Scheduler (Batch)
 <img src="https://img.shields.io/badge/airflow-017CEE?style=for-the-badge&logo=apacheairflow&logoColor=white">
+<br>
 
 #### Rest API 서버
 <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white">
 <img src="https://img.shields.io/badge/cloud_flare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white">
+<br>
 
 #### 프론트엔드 서버
 <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
@@ -63,16 +70,22 @@
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
 <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=black">
 <img src="https://img.shields.io/badge/github_pages-E34F26?style=for-the-badge&logo=githubpages&logoColor=white">
+<br>
 
 #### BI 시각화
 <img src="https://img.shields.io/badge/plotly-7952B3?style=for-the-badge&logo=plotly&logoColor=white">
+<br>
 
 #### 버전관리
 <img src="https://img.shields.io/badge/gitHub-F05032?style=for-the-badge&logo=git&logoColor=white">
+<br>
 
 #### 협업도구
-**[Trello 주소](https://trello.com/b/dSDB5GjG/deproject)**
 <img src="https://img.shields.io/badge/trello-0052CC?style=for-the-badge&logo=trello&logoColor=white">
+[Trello 주소](https://trello.com/b/dSDB5GjG/deproject)
+
+</div>
+
 
 
 ---
