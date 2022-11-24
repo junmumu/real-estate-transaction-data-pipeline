@@ -2,6 +2,7 @@ from infra.jdbc import DataMart, DataWarehouse, find_data, overwrite_data, overw
 from infra.spark_session import get_spark_session
 
 
+# 광역시도별 누적매도매수량 집계
 class AccSellBuyAdrs:
     @classmethod
     def save(cls):
@@ -20,12 +21,10 @@ class AccSellBuyAdrs:
                                                 FROM OWN_ADDR INNER JOIN LOC ON OWN_ADDR.BUYER_REGN_CODE = LOC.LOC_CODE
                                                 GROUP BY SIDO) S2
                                             WHERE S1.REGN = S2.REGN''')
-        #df_fin.show()
 
-        #save_data(DataMart, df_fin, "ACC_SELL_BUY_ADRS")
         overwrite_trunc_data(DataMart, df_fin, "ACC_SELL_BUY_ADRS")
 
-
+# 수도권, 비수도권 매수, 매도 비중 집계
 class SellBuySudo:
     @classmethod
     def save(cls):
@@ -49,12 +48,9 @@ class SellBuySudo:
                                                 GROUP BY SUDO) S2
                                             WHERE S1.SUDO = S2.SUDO''')
         
-        #df_fin.show()
-
-        #save_data(DataMart, df_fin, "SELL_BUY_SUDO")
         overwrite_trunc_data(DataMart, df_fin, "SELL_BUY_SUDO")
 
-
+# 수도권 연도별 매도매수량 집계
 class SellBuySudoYear:
     @classmethod
     def save(cls):
@@ -74,8 +70,4 @@ class SellBuySudoYear:
                                             WHERE SIDO IN ('서울특별시', '인천광역시', '경기도')
                                             GROUP BY SIDO, EXTRACT(YEAR FROM RES_DATE)) S2
                                         WHERE S1.SIDO = S2.SIDO AND S1.YEAR = S2.YEAR''')
-    
-        #df_fin.show()
-
-        #save_data(DataMart, df_fin, "SELL_BUY_SUDO_YEAR")
         overwrite_trunc_data(DataMart, df_fin, "SELL_BUY_SUDO_YEAR")

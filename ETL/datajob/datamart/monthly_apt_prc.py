@@ -3,35 +3,43 @@ from pyspark.sql.functions import date_format, col, sum, count, round, broadcast
 from infra.spark_session import get_spark_session
 from infra.util import cal_std_month2
 
-
+# 월간 아파트 평균 매매 가격 집계
 class MonthlyAptPrc:
 
     @classmethod
     def save(cls):
+        # DW에서 아파트 실거래 가격정보 가져오기
         df_apt_prc = find_data(DataWarehouse, "REAL_PRC_APT")
         df_apt_prc.createOrReplaceTempView('REAL_PRC_APT')
 
+        # DW에서 지역코드 정보 가져오기
         df_loc = find_data(DataWarehouse, "LOC")
         df_loc.createOrReplaceTempView('LOC')
 
+        # 조건에 따른 가격정보 데이터 가져오기
         df_apt_prc = df_apt_prc.select(date_format(col('RES_DATE'), 'yyyy-MM').alias('DATE_YM'),
                                         col('AMOUNT'), 
                                         col('REGN_CODE'),
                                         (col('AMOUNT') / col('AREA')).alias('TMP')) \
                                 .where(col('DATE_YM') == cal_std_month2(2))
         
+        # 컬럼선택
         df_loc = df_loc.select(col('LOC_CODE'), col('SIDO_CODE'), col('SIDO').alias('REGN'))
 
+        # 지역코드를 이용해 조인
         df_fin = df_apt_prc.join(broadcast(df_loc), df_apt_prc.REGN_CODE == df_loc.LOC_CODE)
 
+        # 집계진행
         df_fin = df_fin.groupBy([col("DATE_YM"), col('SIDO_CODE'), col("REGN")]) \
                         .agg(sum("AMOUNT"), count("AMOUNT"), sum("TMP"))
         df_fin = df_fin.select(col("DATE_YM"), col("REGN"),
                                 round((col("sum(AMOUNT)") / col("count(AMOUNT)")), 0).alias("AVG_PRICE"),
                                 round((col("sum(TMP)") / col("count(AMOUNT)")), 0).alias("AVG_PRICE_M2"))
 
+        # DM에 쓰기
         overwrite_trunc_data(DataMart, df_fin, "MONTHLY_APT_PRC")
 
+        # SQL문
         # get_spark_session().sql('''SELECT TO_CHAR(RES_DATE, 'YYYY-MM') AS DATE_YM, SIDO AS REGN,
         #                             ROUND(SUM(AMOUNT) / COUNT(AMOUNT), 0) AS AVG_PRICE,
         #                             ROUND(SUM(AMOUNT / AREA) / COUNT(AMOUNT), 0) AVG_PRICE_M2

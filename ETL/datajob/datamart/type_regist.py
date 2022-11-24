@@ -2,6 +2,7 @@ from infra.jdbc import DataMart, DataWarehouse, find_data, overwrite_data, overw
 from infra.spark_session import get_spark_session
 from infra.spark_session import get_spark_session
 
+# 전국 소유유형별 등기 구분 수 집계
 class TypeRegist:
 
     @classmethod
@@ -20,7 +21,7 @@ class TypeRegist:
                  
         overwrite_trunc_data(DataMart, df_regi_type, 'OWN_REGIST_TYPE')
 
-
+# 서울시 소유유형별 등기 구분 수 집계
 class SeoulTypeRegist:
     
     @classmethod

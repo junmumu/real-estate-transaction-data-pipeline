@@ -1,7 +1,7 @@
 from infra.jdbc import DataMart, DataWarehouse, find_data, overwrite_data, overwrite_trunc_data, save_data
 from infra.spark_session import get_spark_session
 
-
+# 서울시 자치구별 부동산 등기 수 집계
 class SeoulGuRegist:
 
     @classmethod

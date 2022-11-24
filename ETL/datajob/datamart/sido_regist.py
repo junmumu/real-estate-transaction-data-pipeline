@@ -1,7 +1,7 @@
 from infra.jdbc import DataMart, DataWarehouse, find_data, overwrite_data, overwrite_trunc_data, save_data
 from infra.spark_session import get_spark_session
 
-
+# 전국 17개 광역시도별 등기 구분 수 집계
 class SidoRegist:
 
     @classmethod

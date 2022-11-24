@@ -15,7 +15,7 @@ class LocalCode:
     @classmethod
     def extract_data(cls):
         params = cls.__create_params()
-        # <totalcount>20550</totalcount> : 총 20550개의 item
+        # <totalcount>20550</totalcount> : 총 20550개의 item존재
         # 최대 numofrows = 1000
         # pageno -> 21페이지
         data = []
@@ -24,8 +24,10 @@ class LocalCode:
                 # set params
                 params['pageNo'] = str(page_no)
                 params['numOfRows'] = '1000'
+
                 # execute rest api
                 res = execute_rest_api('get', cls.URL, {}, params)
+                
                 # parse and save data
                 cls.__parse_and_save_data(data, res)
 

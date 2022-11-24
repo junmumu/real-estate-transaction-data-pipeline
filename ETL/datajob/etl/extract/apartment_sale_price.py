@@ -28,7 +28,6 @@ class ApartmentSalePrice:
         for i in range(len(loc_codes)):
             data = []
             loc_code = loc_codes[i][0]
-            #print("loc_codes:", loc_code)
             try:
                 # 날짜만큼 반복
                 for i in range(1, before_cnt + 1):
@@ -36,7 +35,6 @@ class ApartmentSalePrice:
                     params['DEAL_YMD'] = cal_std_month(i)
                     res = execute_rest_api('get', cls.URL, {}, params)
                     cls.__parse_and_save_data(data, res)
-                #print("len(data):", len(data))
                 if len(data) > 0:
                     cls.__write_to_csv(data, params)
             except Exception as e:

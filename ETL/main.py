@@ -12,7 +12,6 @@ from datajob.datamart.sex_regist import SeoulSexRegist, SexRegist
 from datajob.datamart.sido_regist import SidoRegist
 from datajob.datamart.type_regist import SeoulTypeRegist, TypeRegist
 from datajob.etl.extract.apartment_sale_price import ApartmentSalePrice
-
 from datajob.etl.extract.local_code import LocalCode
 from datajob.etl.extract.own_addr import OwnTransferByAddress
 from datajob.etl.extract.own_sex_age import OwnTransferByGenderAge
@@ -45,7 +44,7 @@ def datamart_execute():
 def main():
     works = {
         'extract': {
-            'local_code': LocalCode.extract_data,  # 함수객체 저장
+            'local_code': LocalCode.extract_data, 
             'apartment_sale_price': ApartmentSalePrice.extract_data,
             'real_estate_own': RealEstateOwnExtractor.extract_data,
             'own_addr': OwnTransferByAddress.extract_data,
@@ -55,7 +54,7 @@ def main():
         },
         'transform': {
             'execute': transform_execute,
-            'local_code': LocalCodeTransformer.transform,  # 함수객체 저장
+            'local_code': LocalCodeTransformer.transform,
             'apartment_sale_price': ApartmentSalePriceTransformer.transform,
             'real_estate_own': RealEstateOwnTransformer.transform,
             'own_addr': OwnAddrTransformer.transform,

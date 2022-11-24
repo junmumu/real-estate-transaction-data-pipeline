@@ -1,6 +1,7 @@
 from infra.jdbc import DataMart, DataWarehouse, find_data, overwrite_data, overwrite_trunc_data, save_data
 from infra.spark_session import get_spark_session
 
+# 전국 연령별 등기 구분 수 집계
 class AgesRegist:
 
     @classmethod
@@ -15,7 +16,7 @@ class AgesRegist:
                                             
         overwrite_trunc_data(DataMart, df_age,'AGES_REGIST')
 
-
+# 서울시 연령별 등기 구분 수 집계
 class SeoulAgesRegist:
     @classmethod
     def save(cls):

@@ -1,9 +1,8 @@
-
 import json
 from pyspark.sql.functions import col, monotonically_increasing_id, row_number
 from pyspark.sql.window import Window
 from pyspark.sql.types import *
-from infra.jdbc import DataWarehouse, find_data, overwrite_data, save_data
+from infra.jdbc import DataWarehouse, find_data, save_data
 from infra.logger import get_logger
 from infra.spark_context import get_spark_context
 from infra.spark_session import get_spark_session
@@ -33,18 +32,18 @@ class ApartmentSalePriceTransformer:
 
                 # DW에 Load
                 save_data(DataWarehouse, df_apt_prc, 'REAL_PRC_APT')
-                #overwrite_data(DataWarehouse, df_apt_prc, 'REAL_PRC_APT')
             except Exception as e:
                 log_dict = cls.__create_log_dict(loc_codes[i][0])
                 cls.__dump_log(log_dict, e)
 
+    # DW LOC테이블에서 지역코드정보 가져옴
     @classmethod
     def __fetch_localcodes(cls):
-        # DW LOC테이블에서 지역코드정보 가져옴
         df_loc = find_data(DataWarehouse, 'LOC')
         loc_codes = df_loc.select('LOC_CODE').collect()
         return loc_codes
 
+    # 데이터프레임 조인
     @classmethod
     def __join_df(cls, df_apt_prc, df_prc):
         # 두 데이터프레임을 합하기 위해서 두 DF에서 가상으로 idx만든다음, 그 idx로 join
@@ -55,26 +54,27 @@ class ApartmentSalePriceTransformer:
         # print(df_apt_prc.dtypes)
         return df_apt_prc
 
+    # 컬럼 선택 및 형변환
     @classmethod
     def __select_columns(cls, df_apt_prc):
-        # select columns and cast type
         df_apt_prc = df_apt_prc.select(col('거래날짜').cast(DateType()).alias('res_date'), col('전용면적').cast('float').alias('area'), col('지역코드').alias('regn_code'))
         return df_apt_prc
 
+    # 거래금액 리스트를 데이터프레임으로 생성
     @classmethod
-    def __create_df_with_rdd(cls, rdd_prc_list_trans):
-        # 거래금액 리스트를 데이터프레임으로 생성
+    def __create_df_with_rdd(cls, rdd_prc_list_trans):    
         schema = StructType([StructField("amount", IntegerType(), False)])
         df_prc = get_spark_session().createDataFrame(data=rdd_prc_list_trans, schema=schema)
         return df_prc
 
+    # 데이터프레임으로 생성하기 전 rdd이용해 transform
     @classmethod
     def __rdd_transform(cls, prc_list_trans):
-        # 데이터프레임으로 생성하기 전 rdd이용해 transform
         rdd_prc_list_trans = get_spark_context().parallelize(c=prc_list_trans)
         rdd_prc_list_trans = rdd_prc_list_trans.map(lambda x: [x])  # transform the rdd
         return rdd_prc_list_trans
 
+    # 데이터 형변환 함수
     @classmethod
     def __cast_amount(cls, df_apt_prc):
         # 거래금액을 리스트로 받아서 int형으로 casting 진행
@@ -87,20 +87,18 @@ class ApartmentSalePriceTransformer:
                 tmp += s
             tmp = int(tmp)
             prc_list_trans.append(tmp)
-        #print(prc_list_trans[:3], type(prc_list_trans[0]))
+
         return prc_list_trans
 
+    # HDFS에 있는 CSV파일 읽어오기
     @classmethod
     def __read_csv_file(cls, loc_codes, i):
         # 지역코드를 이용해 csv파일 읽기
         loc_code = loc_codes[i][0]
-        #file_name = 'apart_price_data_' + loc_code + '.csv'
         deal_ymd = cal_std_month(1)  # 저번달 : 202209
         file_name = 'apart_price_data_' + loc_code + '_' + deal_ymd + '.csv'
        
         df_apt_prc = get_spark_session().read.csv(cls.FILE_DIR + file_name, encoding='CP949', header=True)
-        # df_apt_prc.show(3)
-        # print(df_apt_prc.dtypes)
         return df_apt_prc
             
     # 로그 dump
