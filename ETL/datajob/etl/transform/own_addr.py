@@ -38,7 +38,6 @@ class OwnAddrTransformer:
                 cls.__dump_log(log_dict, e)
 
 
-
     # 로그 dump
     @classmethod
     def __dump_log(cls, log_dict, e):

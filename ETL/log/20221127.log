@@ -1,0 +1,3 @@
+{"is_success": "Fail", "type": "apartment_sale_price_extract", "std_month": "202209", "params": {"ServiceKey": "NvoJpM4nyxzXkb5F8hffSDHLrfuCyIcVBqBSDCgTa+/7CtQnsrFwE8y/a0lLPVxN1AESAPkiMkfoS7KYrck13A==", "pageNo": "1", "numOfRows": "2000", "LAWD_CD": "41270", "DEAL_YMD": "202210"}, "err_msg": "응답코드 : 502"}
+{"is_success": "Fail", "type": "own_addr_transform", "err_msg": "Some of types cannot be determined after inferring"}
+{"is_success": "Fail", "type": "own_sex_age_transform", "err_msg": "Some of types cannot be determined after inferring"}
